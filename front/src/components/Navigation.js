@@ -33,6 +33,9 @@ class Navigation extends Component {
           <Navbar.Text className="justify-content-end">
             <AuthButton/>
           </Navbar.Text>
+          <Navbar.Text className="justify-content-end">
+            <Link to="/register">Inscrivez-vous</Link>
+          </Navbar.Text>
         </Navbar>
       </>
     )

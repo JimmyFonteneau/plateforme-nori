@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from "react-router-dom";
-import { fakeAuth } from '../lib/auth'
+import { Auth } from '../lib/auth'
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
-    fakeAuth.isAuthenticated === true
+    Auth.isAuthenticated === true
       ? (
-        fakeAuth.canAccess(props.location.pathname) === true
+        Auth.canAccess(props.location.pathname) === true
           ? (
             <Component {...props} />
           )

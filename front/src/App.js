@@ -7,6 +7,7 @@ import  Navigation  from './components/Navigation';
 
 // pages
 import { Login } from './pages/Login';
+import { Register } from './pages/Register';
 
 
 const Public = () => <h3>Public</h3>
@@ -21,6 +22,7 @@ export default function AuthExample () {
       <Navigation/>       
         <Route path="/public" component={Public}/>
         <Route path="/login" component={Login}/>
+        <Route path="/register" component={Register}/>
         <PrivateRoute path='/protected' component={Protected} />
       </div>
     </Router>

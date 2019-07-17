@@ -1,3 +1,5 @@
+import { setToken, removeToken } from './handleLocalStorage';
+
 const student = {
   route: []
 }
@@ -6,13 +8,15 @@ const enterprise = {
   routes: ['/protected']
 }
 
-const fakeAuth = {
+const Auth = {
     isAuthenticated: false,
-    authenticate(cb) {
+    authenticate(jwt, cb) {
+      setToken(jwt);
       this.isAuthenticated = true
       setTimeout(cb, 100) // fake async
     },
     signout(cb) {
+      removeToken();
       this.isAuthenticated = false
       setTimeout(cb, 100) // fake async
     },
@@ -25,4 +29,4 @@ const fakeAuth = {
     }
   };
 
-  export {fakeAuth};
+  export {Auth};

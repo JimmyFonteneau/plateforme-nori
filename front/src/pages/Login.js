@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
-import { fakeAuth } from '../lib/auth';
+import { Auth } from '../lib/auth';
 import { Redirect } from "react-router-dom";
-import { Form } from 'react-bootstrap';
+import { Form, FormCheck } from 'react-bootstrap';
+import { post } from '../lib/apiCalls';
 
 class Login extends React.Component {
   state = {
     redirectToReferrer: false
   }
 
-  login = () => {
-    fakeAuth.authenticate(() => {
-      this.setState(() => ({
-        redirectToReferrer: true
-      }));
-    })
+  login = async () => {
+    const { email, password } = this.state;
+    const jwt = await post('/login', {email, password});
+    if (jwt) {
+      Auth.authenticate(jwt, () => {
+        this.setState(() => ({
+          redirectToReferrer: true
+        }));
+      });
+    }    
   }
 
   handleChange = (event) => {  
@@ -22,6 +27,17 @@ class Login extends React.Component {
       [name]: value
     });
   }
+
+  // handlePassword = (password) => {
+  //   check(password);
+  //   if (ok) {
+  //     this.setState({
+  //       [name]: value
+  //     });
+  //   } else {
+
+  //   }
+  // }
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
@@ -35,16 +51,17 @@ class Login extends React.Component {
       <div>
         <Form>
           <Form.Group controlId="formGroupEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control onChange={this.handleChange} name="email" type="email" placeholder="Enter email" />
+           {/* Passer ces 3 champs en composant */}
+           <Form.Label>Email</Form.Label>
+           <Form.Control onChange={this.handleChange} name="email" type="email" placeholder="Enter email" />
+           {/* {this.state.passwordError ? <span name="password-error">{this.state.passwordError}</span>}             */}
           </Form.Group>
           <Form.Group controlId="formGroupPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control onChange={this.handleChange} name="password" type="password" placeholder="Password" />
           </Form.Group>
-        </Form>
-        {/* <p>Connectez-vous</p> */}
-        <button onClick={this.login}>Log in</button>
+        </Form>       
+        <button onClick={this.login}>Connectez-vous</button>
       </div>
     )
   }
